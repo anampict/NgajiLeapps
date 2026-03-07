@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sm6aplikasiku/screens/SplashScreen.dart';
+import 'package:sm6aplikasiku/screens/dashboard/Homescreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Splashscreen(),
+      home: const Homescreen(),
     );
   }
 }
