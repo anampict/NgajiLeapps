@@ -53,7 +53,7 @@ class _DaftarsurahscreenState extends State<Daftarsurahscreen> {
               child: IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back),
-                color: const Color(0xFF1B9B6C),
+                color: Colors.black,
                 iconSize: 25,
               ),
             ),
@@ -62,9 +62,9 @@ class _DaftarsurahscreenState extends State<Daftarsurahscreen> {
               'Daftar Surah',
               style: TextStyle(
                 fontFamily: 'Primary',
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF1B9B6C),
+                color: Colors.black,
               ),
             ),
           ],

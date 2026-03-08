@@ -3,6 +3,7 @@ import 'package:sm6aplikasiku/screens/SplashScreen.dart';
 import 'package:sm6aplikasiku/screens/daftarsurah/BacaSurahScreen.dart';
 import 'package:sm6aplikasiku/screens/daftarsurah/DaftarSurahScreen.dart';
 import 'package:sm6aplikasiku/screens/dashboard/Homescreen.dart';
+import 'package:sm6aplikasiku/screens/jadwalsholat/JadwalSholatScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Bacasurahscreen(),
+      home: const Jadwalsholatscreen(),
     );
   }
 }

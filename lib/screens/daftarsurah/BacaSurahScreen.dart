@@ -155,7 +155,7 @@ class _BacasurahscreenState extends State<Bacasurahscreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                        border: Border.all(color: Colors.grey.withOpacity(0.2)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
