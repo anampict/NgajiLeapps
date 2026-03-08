@@ -48,7 +48,7 @@ class _DaftarsurahscreenState extends State<Daftarsurahscreen> {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF1B9B6C).withOpacity(0.2),
+                color: const Color.fromARGB(255, 245, 243, 243),
               ),
               child: IconButton(
                 onPressed: () => Navigator.pop(context),
