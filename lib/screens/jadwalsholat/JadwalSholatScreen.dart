@@ -61,33 +61,16 @@ class Jadwalsholatscreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color.fromARGB(255, 245, 243, 243),
-              ),
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
-                color: Colors.black,
-                iconSize: 25,
-              ),
-            ),
-            const SizedBox(width: 80),
-            const Text(
-              'Jadwal Sholat',
-              style: TextStyle(
-                fontFamily: 'Primary',
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Jadwal Sholat',
+          style: TextStyle(
+            fontFamily: 'Primary',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
       ),
       body: SingleChildScrollView(

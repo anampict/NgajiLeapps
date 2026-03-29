@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:sm6aplikasiku/routes/app_routes.dart';
 import '../../models/surah.dart';
 
 class Daftarsurahscreen extends StatefulWidget {
@@ -41,33 +43,15 @@ class _DaftarsurahscreenState extends State<Daftarsurahscreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color.fromARGB(255, 245, 243, 243),
-              ),
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
-                color: Colors.black,
-                iconSize: 25,
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              'Daftar Surah',
-              style: TextStyle(
-                fontFamily: 'Primary',
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-          ],
+        automaticallyImplyLeading: false,
+        title: const Text(
+          'Daftar Surah',
+          style: TextStyle(
+            fontFamily: 'Primary',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
       ),
       body: Column(
@@ -105,82 +89,87 @@ class _DaftarsurahscreenState extends State<Daftarsurahscreen> {
                 final surah = filteredSurah[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          // Nomor dengan Icon BorderAyat
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/borderayat.svg',
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text(
-                                surah.nomor.toString(),
-                                style: const TextStyle(
-                                  fontFamily: 'Primary',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1B9B6C),
-                                ),
-                              ),
-                            ],
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () =>
+                        Get.toNamed(AppRoutes.bacaSurah, arguments: surah),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
                           ),
-                          const SizedBox(width: 12),
-                          // Informasi Surah
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            // Nomor dengan Icon BorderAyat
+                            Stack(
+                              alignment: Alignment.center,
                               children: [
+                                SvgPicture.asset(
+                                  'assets/icons/borderayat.svg',
+                                  width: 50,
+                                  height: 50,
+                                ),
                                 Text(
-                                  surah.namaLatin,
+                                  surah.nomor.toString(),
                                   style: const TextStyle(
                                     fontFamily: 'Primary',
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${surah.jumlahAyat} AYAT • ${surah.jenis.toUpperCase()}',
-                                  style: const TextStyle(
-                                    fontFamily: 'Primary',
-                                    fontSize: 12,
-                                    color: Colors.grey,
+                                    color: Color(0xFF1B9B6C),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          // Nama Arab
-                          Text(
-                            surah.namaArab,
-                            style: const TextStyle(
-                              fontFamily: 'Arabic',
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1B9B6C),
+                            const SizedBox(width: 12),
+                            // Informasi Surah
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    surah.namaLatin,
+                                    style: const TextStyle(
+                                      fontFamily: 'Primary',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '${surah.jumlahAyat} AYAT • ${surah.jenis.toUpperCase()}',
+                                    style: const TextStyle(
+                                      fontFamily: 'Primary',
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ],
+                            // Nama Arab
+                            Text(
+                              surah.namaArab,
+                              style: const TextStyle(
+                                fontFamily: 'Arabic',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1B9B6C),
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

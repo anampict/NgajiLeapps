@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:sm6aplikasiku/controller/NavigationController.dart';
+import 'package:sm6aplikasiku/routes/app_routes.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final navController = Get.find<NavigationController>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -142,7 +146,7 @@ class Homescreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => navController.changePage(2),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Color(0xFF1B9B6C),
@@ -186,9 +190,21 @@ class Homescreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildMenuIcon('assets/icons/menubacaquran.svg', 'Al-Quran'),
-                  _buildMenuIcon('assets/icons/menujadwalsholat.svg', 'Jadwal'),
-                  _buildMenuIcon('assets/icons/menucatatan.svg', 'Catatan'),
+                  _buildMenuIcon(
+                    'assets/icons/menubacaquran.svg',
+                    'Al-Quran',
+                    onTap: () => navController.changePage(1),
+                  ),
+                  _buildMenuIcon(
+                    'assets/icons/menujadwalsholat.svg',
+                    'Jadwal',
+                    onTap: () => navController.changePage(2),
+                  ),
+                  _buildMenuIcon(
+                    'assets/icons/menucatatan.svg',
+                    'Catatan',
+                    onTap: () => navController.changePage(3),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -205,63 +221,69 @@ class Homescreen extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  Text(
-                    'Lainnya',
-                    style: TextStyle(
-                      fontFamily: 'Primary',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF1B9B6C),
+                  GestureDetector(
+                    onTap: () => navController.changePage(1),
+                    child: Text(
+                      'Lainnya',
+                      style: TextStyle(
+                        fontFamily: 'Primary',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF1B9B6C),
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Color(0xFF1B9B6C).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.library_books,
-                      color: Color(0xFF1B9B6C),
-                      size: 32,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Al-Kahf',
-                            style: TextStyle(
-                              fontFamily: 'Primary',
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'Ayat 1 - 10',
-                            style: TextStyle(
-                              fontFamily: 'Primary',
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF999999),
-                            ),
-                          ),
-                        ],
+              GestureDetector(
+                onTap: () => Get.toNamed(AppRoutes.bacaSurah),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF1B9B6C).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.library_books,
+                        color: Color(0xFF1B9B6C),
+                        size: 32,
                       ),
-                    ),
-                    Icon(
-                      Icons.play_circle_filled,
-                      color: Color(0xFF1B9B6C),
-                      size: 32,
-                    ),
-                  ],
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Al-Kahf',
+                              style: TextStyle(
+                                fontFamily: 'Primary',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              'Ayat 1 - 10',
+                              style: TextStyle(
+                                fontFamily: 'Primary',
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF999999),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.play_circle_filled,
+                        color: Color(0xFF1B9B6C),
+                        size: 32,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
@@ -323,100 +345,50 @@ class Homescreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        elevation: 8,
-        selectedItemColor: Color(0xFF1B9B6C),
-        unselectedItemColor: Color(0xFFCCCCCC),
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icons/menuhome.svg',
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFF1B9B6C),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icons/menuquran.svg',
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFFCCCCCC),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: 'Quran',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icons/menusholat.svg',
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFFCCCCCC),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: 'Sholat',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icons/menuprofil.svg',
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFFCCCCCC),
-                BlendMode.srcIn,
-              ),
-            ),
-            label: 'Profil',
-          ),
-        ],
-      ),
     );
   }
 
-  Widget _buildMenuIcon(String iconPath, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Color(0xFFF5F5F5),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Center(
-            child: SvgPicture.asset(
-              iconPath,
-              width: 35,
-              height: 35,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFF1B9B6C),
-                BlendMode.srcIn,
+  Widget _buildMenuIcon(
+    String iconPath,
+    String label, {
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 70,
+            height: 70,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: SvgPicture.asset(
+                iconPath,
+                width: 35,
+                height: 35,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFF1B9B6C),
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Primary',
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF333333),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Primary',
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF333333),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

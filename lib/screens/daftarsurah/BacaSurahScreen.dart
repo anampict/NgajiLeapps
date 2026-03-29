@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Ayat {
   final int nomor;
@@ -51,7 +52,7 @@ class _BacasurahscreenState extends State<Bacasurahscreen> {
                 color: const Color.fromARGB(255, 245, 243, 243),
               ),
               child: IconButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Get.back(),
                 icon: const Icon(Icons.arrow_back_rounded),
                 color: Colors.black,
                 iconSize: 25,
