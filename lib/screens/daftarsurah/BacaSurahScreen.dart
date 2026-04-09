@@ -46,19 +46,7 @@ class _BacasurahscreenState extends State<Bacasurahscreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color.fromARGB(255, 245, 243, 243),
-              ),
-              child: IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(Icons.arrow_back_rounded),
-                color: Colors.black,
-                iconSize: 25,
-              ),
-            ),
-            const SizedBox(width: 100),
+            const SizedBox(width: 90),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: const [
