@@ -3,7 +3,7 @@ class Surah {
   final String namaLatin;
   final String namaArab;
   final int jumlahAyat;
-  final String jenis; // Makkiyah atau Madaniyah
+  final String jenis; // Makkiyah / Madaniyah
 
   Surah({
     required this.nomor,
@@ -12,6 +12,18 @@ class Surah {
     required this.jumlahAyat,
     required this.jenis,
   });
+
+  factory Surah.fromJson(Map<String, dynamic> json) {
+    final tempatTurun = json['tempatTurun'] as String? ?? '';
+    final jenis = tempatTurun == 'Mekah' ? 'Makkiyah' : 'Madaniyah';
+    return Surah(
+      nomor: json['nomor'] as int,
+      namaLatin: json['namaLatin'] as String,
+      namaArab: json['nama'] as String,
+      jumlahAyat: json['jumlahAyat'] as int,
+      jenis: jenis,
+    );
+  }
 }
 
 final List<Surah> daftarSurah = [

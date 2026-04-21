@@ -5,6 +5,9 @@ class AppConstant {
   // Endpoint jadwal sholat
   static const String shalatEndpoint = '$baseUrl/shalat';
 
+  // Endpoint daftar surah
+  static const String surahEndpoint = '$baseUrl/surat';
+
   // Lokasi default
   static const String provinsi = 'Jawa Timur';
   static const String kabkota = 'Kab. Pasuruan';
