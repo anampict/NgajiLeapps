@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sm6aplikasiku/controller/JadwalSholatController.dart';
 import 'package:sm6aplikasiku/controller/NavigationController.dart';
 import 'package:sm6aplikasiku/screens/catatan/CatatanScreen.dart';
 import 'package:sm6aplikasiku/screens/daftarsurah/DaftarSurahScreen.dart';
@@ -11,6 +12,10 @@ class MainNavigation extends StatelessWidget {
   MainNavigation({super.key});
 
   final NavigationController navController = Get.put(NavigationController());
+  // ignore: unused_field
+  final JadwalSholatController _jadwalController = Get.put(
+    JadwalSholatController(),
+  );
 
   final List<Widget> _pages = const [
     Homescreen(),

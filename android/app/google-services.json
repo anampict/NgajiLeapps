@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "252498272942",
+    "project_id": "ngajile-app",
+    "storage_bucket": "ngajile-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252498272942:android:3d527b6cab6271d7edc33f",
+        "android_client_info": {
+          "package_name": "com.example.sm6aplikasiku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqCB0YFwxY2CyFD8j0kn2uPceCh1JBOdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
