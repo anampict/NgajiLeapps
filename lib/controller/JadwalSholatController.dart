@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'package:sm6aplikasiku/models/jadwal_sholat_model.dart';
 import 'package:sm6aplikasiku/services/jadwal_sholat_service.dart';
@@ -17,11 +18,23 @@ class JadwalSholatController extends GetxController {
   final waktuBerikutnya = ''.obs;
   final selisihBerikutnya = ''.obs;
 
+  Timer? _timer;
+
   @override
   void onInit() {
     super.onInit();
     final now = DateTime.now();
     fetchJadwal(tahun: now.year, bulan: now.month);
+    // Update hitungan mundur setiap detik
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      _hitungWaktuBerikutnya();
+    });
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
   }
 
   Future<void> fetchJadwal({required int tahun, required int bulan}) async {
@@ -92,10 +105,14 @@ class JadwalSholatController extends GetxController {
   String _formatSelisih(Duration diff) {
     final jam = diff.inHours;
     final menit = diff.inMinutes % 60;
+    final detik = diff.inSeconds % 60;
     if (jam > 0) {
       return '$jam jam $menit menit lagi';
     }
-    return '$menit menit lagi';
+    if (menit > 0) {
+      return '$menit menit $detik detik lagi';
+    }
+    return '$detik detik lagi';
   }
 
   /// Kembalikan list waktu sholat untuk tampil di screen (imsak + 5 waktu)

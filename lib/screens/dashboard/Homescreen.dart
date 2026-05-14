@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sm6aplikasiku/controller/JadwalSholatController.dart';
 import 'package:sm6aplikasiku/controller/NavigationController.dart';
 import 'package:sm6aplikasiku/routes/app_routes.dart';
@@ -62,7 +63,7 @@ class Homescreen extends StatelessWidget {
                   const SizedBox(width: 4),
 
                   Text(
-                    '15 Ramadan 1445 H',
+                    DateFormat('dd MMMM yyyy', 'id_ID').format(DateTime.now()),
                     style: TextStyle(
                       fontFamily: 'Primary',
                       fontSize: 12,
