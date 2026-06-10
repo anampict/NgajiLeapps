@@ -23,7 +23,9 @@ class BookmarkController extends GetxController {
 
   @override
   void onClose() {
-    _subscription?.cancel();
+    try {
+      _subscription?.cancel();
+    } catch (_) {}
     super.onClose();
   }
 
@@ -32,20 +34,31 @@ class BookmarkController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
+
       _subscription = _service.getBookmarksStream().listen(
         (data) {
-          bookmarks.value = data;
-          bookmarkedSurahNumbers.assignAll(
-              data.map((b) => b.nomorSurah).toSet());
+          try {
+            bookmarks.value = data;
+            bookmarkedSurahNumbers.assignAll(
+                data.map((b) => b.nomorSurah).toSet());
+            isLoading.value = false;
+          } catch (e) {
+            errorMessage.value = 'Gagal memperbarui data bookmark: $e';
+            isLoading.value = false;
+          }
+        },
+        onError: (Object e) {
+          errorMessage.value =
+              e.toString().replaceFirst('Exception: ', '');
           isLoading.value = false;
         },
-        onError: (e) {
-          errorMessage.value = 'Gagal memuat bookmark: ${e.toString()}';
-          isLoading.value = false;
-        },
+        cancelOnError: false, // tetap listen meski ada error sementara
       );
+    } on Exception catch (e) {
+      errorMessage.value = e.toString().replaceFirst('Exception: ', '');
+      isLoading.value = false;
     } catch (e) {
-      errorMessage.value = 'Terjadi kesalahan: ${e.toString()}';
+      errorMessage.value = 'Gagal memulai listener bookmark: $e';
       isLoading.value = false;
     }
   }
@@ -62,7 +75,7 @@ class BookmarkController extends GetxController {
           '${surah.namaLatin} dihapus dari bookmark',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFFFF5252),
-          colorText: const Color(0xFFFFFFFF),
+          colorText: Colors.white,
           margin: const EdgeInsets.all(16),
           borderRadius: 12,
           duration: const Duration(seconds: 2),
@@ -83,19 +96,29 @@ class BookmarkController extends GetxController {
           '${surah.namaLatin} disimpan ke bookmark',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFF1B9B6C),
-          colorText: const Color(0xFFFFFFFF),
+          colorText: Colors.white,
           margin: const EdgeInsets.all(16),
           borderRadius: 12,
           duration: const Duration(seconds: 2),
         );
       }
+    } on Exception catch (e) {
+      Get.snackbar(
+        'Gagal',
+        e.toString().replaceFirst('Exception: ', ''),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFFFF5252),
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 12,
+      );
     } catch (e) {
       Get.snackbar(
         'Gagal',
-        'Terjadi kesalahan: ${e.toString()}',
+        'Terjadi kesalahan tidak terduga',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF5252),
-        colorText: const Color(0xFFFFFFFF),
+        colorText: Colors.white,
         margin: const EdgeInsets.all(16),
         borderRadius: 12,
       );
@@ -111,18 +134,28 @@ class BookmarkController extends GetxController {
         '$namaLatin dihapus dari bookmark',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF5252),
-        colorText: const Color(0xFFFFFFFF),
+        colorText: Colors.white,
         margin: const EdgeInsets.all(16),
         borderRadius: 12,
         duration: const Duration(seconds: 2),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       Get.snackbar(
-        'Gagal',
-        'Terjadi kesalahan: ${e.toString()}',
+        'Gagal Menghapus',
+        e.toString().replaceFirst('Exception: ', ''),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF5252),
-        colorText: const Color(0xFFFFFFFF),
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 12,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Gagal Menghapus',
+        'Terjadi kesalahan tidak terduga',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFFFF5252),
+        colorText: Colors.white,
         margin: const EdgeInsets.all(16),
         borderRadius: 12,
       );
@@ -131,6 +164,10 @@ class BookmarkController extends GetxController {
 
   /// Cek apakah surah tertentu sudah di-bookmark
   bool isSurahBookmarked(int nomorSurah) {
-    return bookmarkedSurahNumbers.contains(nomorSurah);
+    try {
+      return bookmarkedSurahNumbers.contains(nomorSurah);
+    } catch (_) {
+      return false;
+    }
   }
 }

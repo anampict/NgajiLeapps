@@ -8,24 +8,40 @@ class JadwalSholatService {
     required int tahun,
     required int bulan,
   }) async {
-    final uri = Uri.parse(AppConstant.shalatEndpoint);
-    final response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'provinsi': AppConstant.provinsi,
-        'kabkota': AppConstant.kabkota,
-        'tahun': tahun,
-        'bulan': bulan,
-      }),
-    );
+    try {
+      final uri = Uri.parse(AppConstant.shalatEndpoint);
+      final response = await http
+          .post(
+            uri,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'provinsi': AppConstant.provinsi,
+              'kabkota': AppConstant.kabkota,
+              'tahun': tahun,
+              'bulan': bulan,
+            }),
+          )
+          .timeout(
+            const Duration(seconds: 15),
+            onTimeout: () => throw Exception('Koneksi timeout, coba lagi'),
+          );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> json =
-          jsonDecode(response.body) as Map<String, dynamic>;
-      return JadwalSholatBulanan.fromJson(json);
-    } else {
-      throw Exception('Gagal mengambil jadwal sholat: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        try {
+          final Map<String, dynamic> json =
+              jsonDecode(response.body) as Map<String, dynamic>;
+          return JadwalSholatBulanan.fromJson(json);
+        } catch (e) {
+          throw Exception('Gagal memparse data jadwal sholat: $e');
+        }
+      } else {
+        throw Exception(
+            'Server merespons dengan status ${response.statusCode}');
+      }
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Gagal mengambil jadwal sholat: $e');
     }
   }
 }

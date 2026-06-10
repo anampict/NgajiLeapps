@@ -5,18 +5,32 @@ import 'package:sm6aplikasiku/utils/Constant.dart';
 
 class SurahService {
   Future<List<Surah>> fetchDaftarSurah() async {
-    final uri = Uri.parse(AppConstant.surahEndpoint);
-    final response = await http.get(uri);
+    try {
+      final uri = Uri.parse(AppConstant.surahEndpoint);
+      final response = await http.get(uri).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () => throw Exception('Koneksi timeout, coba lagi'),
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> json =
-          jsonDecode(response.body) as Map<String, dynamic>;
-      final List<dynamic> data = json['data'] as List<dynamic>;
-      return data
-          .map((e) => Surah.fromJson(e as Map<String, dynamic>))
-          .toList();
-    } else {
-      throw Exception('Gagal mengambil daftar surah: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        try {
+          final Map<String, dynamic> json =
+              jsonDecode(response.body) as Map<String, dynamic>;
+          final List<dynamic> data = json['data'] as List<dynamic>;
+          return data
+              .map((e) => Surah.fromJson(e as Map<String, dynamic>))
+              .toList();
+        } catch (e) {
+          throw Exception('Gagal memparse data surah: $e');
+        }
+      } else {
+        throw Exception(
+            'Server merespons dengan status ${response.statusCode}');
+      }
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Gagal mengambil daftar surah: $e');
     }
   }
 }

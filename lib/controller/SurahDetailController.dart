@@ -15,18 +15,26 @@ class SurahDetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    surah = Get.arguments as Surah;
-    fetchDetail();
+    try {
+      surah = Get.arguments as Surah;
+      fetchDetail();
+    } catch (e) {
+      errorMessage.value = 'Gagal memuat argumen surah: $e';
+      isLoading.value = false;
+    }
   }
 
   Future<void> fetchDetail() async {
-    isLoading.value = true;
-    errorMessage.value = '';
     try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
       final data = await _service.fetchDetail(surah.nomor);
       surahDetail.value = data;
+    } on Exception catch (e) {
+      errorMessage.value = e.toString().replaceFirst('Exception: ', '');
     } catch (e) {
-      errorMessage.value = e.toString();
+      errorMessage.value = 'Terjadi kesalahan tidak terduga: $e';
     } finally {
       isLoading.value = false;
     }

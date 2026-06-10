@@ -12,17 +12,25 @@ class BookmarkService {
           .collection(_collection)
           .orderBy('createdAt', descending: true)
           .snapshots()
-          .map((snapshot) =>
-              snapshot.docs.map((doc) => BookmarkModel.fromFirestore(doc)).toList());
+          .map((snapshot) {
+        try {
+          return snapshot.docs
+              .map((doc) => BookmarkModel.fromFirestore(doc))
+              .toList();
+        } catch (e) {
+          throw Exception('Gagal memparse data bookmark: $e');
+        }
+      });
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase error [${e.code}]: ${e.message}');
     } catch (e) {
-      rethrow;
+      throw Exception('Gagal memuat stream bookmark: $e');
     }
   }
 
-  /// Menambahkan bookmark baru
+  /// Menambahkan bookmark baru (cek duplikat sebelum insert)
   Future<void> addBookmark(BookmarkModel bookmark) async {
     try {
-      // Cek apakah surah ini sudah ada di bookmark
       final existing = await _firestore
           .collection(_collection)
           .where('nomorSurah', isEqualTo: bookmark.nomorSurah)
@@ -31,8 +39,10 @@ class BookmarkService {
       if (existing.docs.isEmpty) {
         await _firestore.collection(_collection).add(bookmark.toFirestore());
       }
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase error [${e.code}]: ${e.message}');
     } catch (e) {
-      rethrow;
+      throw Exception('Gagal menambahkan bookmark: $e');
     }
   }
 
@@ -44,20 +54,27 @@ class BookmarkService {
           .where('nomorSurah', isEqualTo: nomorSurah)
           .get();
 
+      if (snapshot.docs.isEmpty) return;
+
       for (final doc in snapshot.docs) {
         await doc.reference.delete();
       }
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase error [${e.code}]: ${e.message}');
     } catch (e) {
-      rethrow;
+      throw Exception('Gagal menghapus bookmark: $e');
     }
   }
 
   /// Menghapus bookmark berdasarkan document ID
   Future<void> removeBookmarkById(String id) async {
     try {
+      if (id.isEmpty) throw Exception('ID dokumen tidak boleh kosong');
       await _firestore.collection(_collection).doc(id).delete();
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase error [${e.code}]: ${e.message}');
     } catch (e) {
-      rethrow;
+      throw Exception('Gagal menghapus bookmark: $e');
     }
   }
 
@@ -69,8 +86,10 @@ class BookmarkService {
           .where('nomorSurah', isEqualTo: nomorSurah)
           .get();
       return snapshot.docs.isNotEmpty;
+    } on FirebaseException catch (e) {
+      throw Exception('Firebase error [${e.code}]: ${e.message}');
     } catch (e) {
-      rethrow;
+      throw Exception('Gagal memeriksa status bookmark: $e');
     }
   }
 }
