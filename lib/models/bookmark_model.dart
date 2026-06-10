@@ -32,6 +32,7 @@ class BookmarkModel {
     );
   }
 
+  /// Mengubah objek BookmarkModel menjadi format Map yang bisa disimpan ke Firebase Firestore.
   Map<String, dynamic> toFirestore() {
     return {
       'nomorSurah': nomorSurah,

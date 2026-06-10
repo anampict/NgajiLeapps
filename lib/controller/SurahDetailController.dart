@@ -12,6 +12,7 @@ class SurahDetailController extends GetxController {
 
   late final Surah surah;
 
+  // function utama untuk mengambil data detail surah berdasarkan nomor surah yang diterima dari halaman sebelumnya
   @override
   void onInit() {
     super.onInit();
@@ -34,7 +35,7 @@ class SurahDetailController extends GetxController {
     } on Exception catch (e) {
       errorMessage.value = e.toString().replaceFirst('Exception: ', '');
     } catch (e) {
-      errorMessage.value = 'Terjadi kesalahan tidak terduga: $e';
+      errorMessage.value = 'Terjadi kesalahan pada fetchDetail: $e';
     } finally {
       isLoading.value = false;
     }
