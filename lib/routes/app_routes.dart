@@ -4,5 +4,5 @@ class AppRoutes {
   static const daftarSurah = '/daftar-surah';
   static const bacaSurah = '/baca-surah';
   static const jadwalSholat = '/jadwal-sholat';
-  static const catatan = '/catatan';
+  static const bookmark = '/bookmark';
 }

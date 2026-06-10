@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sm6aplikasiku/controller/BookmarkController.dart';
 import 'package:sm6aplikasiku/controller/SurahDetailController.dart';
 
 class Bacasurahscreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class Bacasurahscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SurahDetailController());
+    final bookmarkController = Get.find<BookmarkController>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -63,6 +65,36 @@ class Bacasurahscreen extends StatelessWidget {
             ],
           );
         }),
+        actions: [
+          // Tombol bookmark surah di AppBar
+          Obx(() {
+            final isBookmarked = bookmarkController
+                .isSurahBookmarked(controller.surah.nomor);
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                onPressed: () {
+                  bookmarkController.toggleBookmark(controller.surah);
+                },
+                icon: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  transitionBuilder: (child, anim) =>
+                      ScaleTransition(scale: anim, child: child),
+                  child: Icon(
+                    isBookmarked
+                        ? Icons.bookmark_rounded
+                        : Icons.bookmark_outline_rounded,
+                    key: ValueKey<bool>(isBookmarked),
+                    color: isBookmarked
+                        ? const Color(0xFF1B9B6C)
+                        : Colors.black54,
+                    size: 26,
+                  ),
+                ),
+              ),
+            );
+          }),
+        ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -111,6 +143,68 @@ class Bacasurahscreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             children: [
+              // Banner bookmark surah
+              Obx(() {
+                final isBookmarked = bookmarkController
+                    .isSurahBookmarked(controller.surah.nomor);
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: double.infinity,
+                  padding: isBookmarked
+                      ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
+                      : EdgeInsets.zero,
+                  margin: isBookmarked
+                      ? const EdgeInsets.only(bottom: 16)
+                      : EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                    color: isBookmarked
+                        ? const Color(0xFF1B9B6C).withOpacity(0.08)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                    border: isBookmarked
+                        ? Border.all(
+                            color: const Color(0xFF1B9B6C).withOpacity(0.3))
+                        : null,
+                  ),
+                  child: isBookmarked
+                      ? Row(
+                          children: [
+                            const Icon(
+                              Icons.bookmark_rounded,
+                              color: Color(0xFF1B9B6C),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Text(
+                                'Surah ini ada di bookmark Anda',
+                                style: TextStyle(
+                                  fontFamily: 'Primary',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1B9B6C),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => bookmarkController
+                                  .toggleBookmark(controller.surah),
+                              child: const Text(
+                                'Hapus',
+                                style: TextStyle(
+                                  fontFamily: 'Primary',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFFFF5252),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : null,
+                );
+              }),
+
               // Bismillah Header
               if (showBismillah) ...[
                 Container(
@@ -201,16 +295,32 @@ class Bacasurahscreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.bookmark_border,
-                                        color: Color(0xff94A3B8),
-                                        size: 20,
-                                      ),
-                                      constraints: const BoxConstraints(),
-                                      padding: const EdgeInsets.all(8),
-                                    ),
+                                    // Tombol bookmark per ayat (bookmark surah)
+                                    Obx(() {
+                                      final isBookmarked = bookmarkController
+                                          .isSurahBookmarked(
+                                              controller.surah.nomor);
+                                      return IconButton(
+                                        onPressed: () => bookmarkController
+                                            .toggleBookmark(controller.surah),
+                                        icon: AnimatedSwitcher(
+                                          duration: const Duration(
+                                              milliseconds: 200),
+                                          child: Icon(
+                                            isBookmarked
+                                                ? Icons.bookmark_rounded
+                                                : Icons.bookmark_border,
+                                            key: ValueKey<bool>(isBookmarked),
+                                            color: isBookmarked
+                                                ? const Color(0xFF1B9B6C)
+                                                : const Color(0xff94A3B8),
+                                            size: 20,
+                                          ),
+                                        ),
+                                        constraints: const BoxConstraints(),
+                                        padding: const EdgeInsets.all(8),
+                                      );
+                                    }),
                                     IconButton(
                                       onPressed: () {},
                                       icon: const Icon(

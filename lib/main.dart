@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:sm6aplikasiku/firebase_options.dart';
 import 'package:sm6aplikasiku/routes/app_pages.dart';
 import 'package:sm6aplikasiku/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await initializeDateFormatting('id_ID', null);
   runApp(const MyApp());
 }

@@ -1,10 +1,9 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sm6aplikasiku/controller/JadwalSholatController.dart';
 import 'package:sm6aplikasiku/controller/NavigationController.dart';
-import 'package:sm6aplikasiku/routes/app_routes.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -213,146 +212,53 @@ class Homescreen extends StatelessWidget {
                     onTap: () => navController.changePage(2),
                   ),
                   _buildMenuIcon(
-                    'assets/icons/menucatatan.svg',
-                    'Catatan',
+                    'assets/icons/menubookmark.svg',
+                    'Bookmark',
                     onTap: () => navController.changePage(3),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
-              // Last Read Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Terakhir Dibaca',
-                    style: TextStyle(
-                      fontFamily: 'Primary',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => navController.changePage(1),
-                    child: Text(
-                      'Lainnya',
+              const SizedBox(height: 40),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '""',
                       style: TextStyle(
                         fontFamily: 'Primary',
-                        fontSize: 12,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF1CC95F),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '"Banyaklah membaca Al Quran, karena ia akan menjadi teman setiamu di surga."',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Primary',
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF1B9B6C),
+                        color: Colors.grey[700],
+                        height: 1.5,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              GestureDetector(
-                onTap: () => Get.toNamed(AppRoutes.bacaSurah),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF1B9B6C).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.library_books,
-                        color: Color(0xFF1B9B6C),
-                        size: 32,
+                    const SizedBox(height: 12),
+                    Text(
+                      '- Abdullah bin Umar',
+                      style: TextStyle(
+                        fontFamily: 'Primary',
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[600],
+                        letterSpacing: 0.5,
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Al-Kahf',
-                              style: TextStyle(
-                                fontFamily: 'Primary',
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              'Ayat 1 - 10',
-                              style: TextStyle(
-                                fontFamily: 'Primary',
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF999999),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Icon(
-                        Icons.play_circle_filled,
-                        color: Color(0xFF1B9B6C),
-                        size: 32,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 24),
-              // progres harian bar
-              Text(
-                'Progres Harian',
-                style: TextStyle(
-                  fontFamily: 'Primary',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: LinearProgressIndicator(
-                            value: 0.75,
-                            minHeight: 8,
-                            backgroundColor: Color(0xFFE0E0E0),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xFF1B9B6C),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    '75%',
-                    style: TextStyle(
-                      fontFamily: 'Primary',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1B9B6C),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildProgressItem('SHOLAT', '4/5'),
-                  _buildProgressItem('QURAN', '2 Juz'),
-                  _buildProgressItem('DZIKIR', '300x'),
-                ],
-              ),
-              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -404,30 +310,5 @@ class Homescreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressItem(String title, String value) {
-    return Column(
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Primary',
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF999999),
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: TextStyle(
-            fontFamily: 'Primary',
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ],
-    );
-  }
 }
+
