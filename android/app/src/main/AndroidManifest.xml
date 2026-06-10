@@ -2,7 +2,7 @@
     <application
         android:label="sm6aplikasiku"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/logoapk">
         <activity
             android:name=".MainActivity"
             android:exported="true"
